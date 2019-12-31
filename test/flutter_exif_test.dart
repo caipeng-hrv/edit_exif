@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_exif/flutter_exif.dart';
+import 'package:edit_exif/edit_exif.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('flutter_exif');
