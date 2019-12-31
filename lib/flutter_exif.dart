@@ -14,11 +14,19 @@ class FlutterExif {
   Future getExif([String key]) async {
     //android获取某个属性信息 如key：TAG_GPS_LONGITUDE_REF（具体查看exif2文档）
     //ios获取所有图片信息（可以不传key）
-    var value = await _channel.invokeMethod('getExif',<String, dynamic>{'path': this.path,'key':key});
+    var platform = await FlutterExif.platformVersion;
+    var value = {};
+    if(platform.contains('iOS')){
+      value = await _channel.invokeMethod('getExif',<String, dynamic>{'path': this.path,'key':key});
+    }else{
+      if(key != null){
+        value = await _channel.invokeMethod('getExif',<String, dynamic>{'path': this.path,'key':key});
+      }
+    }
     return value;
   } 
   Future setExif(Map exif) async {
-    //android查看exif2文档
+    //android查看https://developer.android.google.cn/reference/android/support/media/ExifInterface?hl=zh-cn
     //ios查看https://developer.apple.com/documentation/imageio/cgimageproperties/exif_dictionary_keys
     await _channel.invokeMethod('setExif',<String, dynamic>{'path': this.path,'exif':exif});
   }
@@ -27,7 +35,7 @@ class FlutterExif {
     if(platform.contains('iOS')){
       await setExif({'DateTimeOriginal':date});
     }else{
-      await setExif({'Exif_Image_DateTime':date});
+      await setExif({'TAG_DATETIME':date});
     }
   }
   Future setGps(Map location)async{

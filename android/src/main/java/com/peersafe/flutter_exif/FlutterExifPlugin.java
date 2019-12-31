@@ -33,8 +33,6 @@ public class FlutterExifPlugin implements MethodCallHandler {
       setExif();
     } else if (call.method.equals("getExif")) {
       getExif();
-    } else if (call.method.equals("setGps")) {
-      setGps();
     }else {
       result.notImplemented();
     }
