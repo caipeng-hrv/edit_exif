@@ -11,20 +11,44 @@ class FlutterExif {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
-  Future getExif(String key) async {
+  Future getExif([String key]) async {
+    //android获取某个属性信息 如key：TAG_GPS_LONGITUDE_REF（具体查看exif2文档）
+    //ios获取所有图片信息（可以不传key）
     var value = await _channel.invokeMethod('getExif',<String, dynamic>{'path': this.path,'key':key});
     return value;
   } 
-  Future setExif(String key,String value) async {
-    await _channel.invokeMethod('setExif',<String, dynamic>{'path': this.path,'key':key,'value':value});
+  Future setExif(Map exif) async {
+    //android查看exif2文档
+    //ios查看https://developer.apple.com/documentation/imageio/cgimageproperties/exif_dictionary_keys
+    await _channel.invokeMethod('setExif',<String, dynamic>{'path': this.path,'exif':exif});
   }
-  Future setLocation(Map location)async{
-    var longitude = gpsInfoConvert(location['lng']);
-    var latitude = gpsInfoConvert(location['lat']);
-    await _channel.invokeMethod('setExif',<String, dynamic>{'path': this.path,'key':'TAG_GPS_LONGITUDE_REF','value':location['lng']>0?'E':'W'});
-    await _channel.invokeMethod('setExif',<String, dynamic>{'path': this.path,'key':'TAG_GPS_LATITUDE_REF','value':location['lat']>0?'N':'S'});
-    await _channel.invokeMethod('setExif',<String, dynamic>{'path': this.path,'key':'TAG_GPS_LONGITUDE','value':longitude});
-    await _channel.invokeMethod('setExif',<String, dynamic>{'path': this.path,'key':'TAG_GPS_LATITUDE','value':latitude});
+  Future setDate(String date)async{
+      var platform = await FlutterExif.platformVersion;
+    if(platform.contains('iOS')){
+      await setExif({'DateTimeOriginal':date});
+    }else{
+      await setExif({'Exif_Image_DateTime':date});
+    }
+  }
+  Future setGps(Map location)async{
+    var platform = await FlutterExif.platformVersion;
+    if(platform.contains('iOS')){
+      await _channel.invokeMethod('setGps',<String, dynamic>{'path': this.path,'gps':{
+        'Latitude':location['lat'],
+        'LatitudeRef':location['lat']>0?'N':'S',
+        'Longitude':location['lng'],
+        'LongitudeRef':location['lng']>0?'E':'W'
+      }});
+    }else{
+      var longitude = gpsInfoConvert(location['lng']);
+      var latitude = gpsInfoConvert(location['lat']);
+      await setExif({
+        'TAG_GPS_LATITUDE':latitude,
+        'TAG_GPS_LATITUDE_REF':location['lat']>0?'N':'S',
+        'TAG_GPS_LONGITUDE':longitude,
+        'TAG_GPS_LONGITUDE_REF':location['lng']>0?'E':'W'
+      });
+    }
   }
   gpsInfoConvert(num coordinate){
       String sb = '';

@@ -33,20 +33,24 @@ public class FlutterExifPlugin implements MethodCallHandler {
       setExif();
     } else if (call.method.equals("getExif")) {
       getExif();
-    } else {
+    } else if (call.method.equals("setGps")) {
+      setGps();
+    }else {
       result.notImplemented();
     }
   }
 
+
   public void setExif() {
     String filepath = call.argument("path");
-    String key = call.argument("key");
-    String value = call.argument("value");
+    Map<String,String> map = call.argument("exif");
     try {
       ExifInterface exif = new ExifInterface(filepath); // 根据图片的路径获取图片的Exif
-      Field staticfield=ExifInterface.class.getDeclaredField(key); 
-      System.out.println(value);
-      exif.setAttribute(staticfield.get(null).toString(), value); // 把纬度写进MODEL
+      for(String key:map.keySet()){
+        Field staticfield=ExifInterface.class.getDeclaredField(key); 
+        exif.setAttribute(staticfield.get(null).toString(), map.get(key)); 
+      } 
+      // 把纬度写进MODEL
       exif.saveAttributes();
       result.success(null); // 最后保存起来
     } catch (Exception e) {
@@ -55,6 +59,7 @@ public class FlutterExifPlugin implements MethodCallHandler {
     }
   }
 
+
   public void getExif() {
     String filepath = call.argument("path");
     String key = call.argument("key");
@@ -62,7 +67,6 @@ public class FlutterExifPlugin implements MethodCallHandler {
       ExifInterface exif = new ExifInterface(filepath);
       Field staticfield=ExifInterface.class.getDeclaredField(key); 
       String value = exif.getAttribute(staticfield.get(null).toString());
-      result.success(value);
     } catch (Exception e) {
       result.error("error", "IOexception", null);
       e.printStackTrace();
