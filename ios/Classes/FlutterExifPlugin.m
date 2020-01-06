@@ -3,7 +3,7 @@
 @implementation FlutterExifPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"flutter_exif"
+      methodChannelWithName:@"edit_exif"
             binaryMessenger:[registrar messenger]];
   FlutterExifPlugin* instance = [[FlutterExifPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];

@@ -1,4 +1,4 @@
-package com.peersafe.flutter_exif_example;
+package com.peersafe.edit_exif_example;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

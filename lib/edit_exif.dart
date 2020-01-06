@@ -5,7 +5,7 @@ class FlutterExif {
   String path;
   FlutterExif(this.path);
   static const MethodChannel _channel =
-      const MethodChannel('flutter_exif');
+      const MethodChannel('edit_exif');
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');

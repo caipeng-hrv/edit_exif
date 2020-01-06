@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:edit_exif/edit_exif.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('flutter_exif');
+  const MethodChannel channel = MethodChannel('edit_exif');
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {

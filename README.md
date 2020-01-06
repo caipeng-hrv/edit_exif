@@ -1,4 +1,4 @@
-# flutter_exif
+# edit_exif
 
 A new flutter plugin project.
 

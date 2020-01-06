@@ -1,4 +1,4 @@
-group 'com.peersafe.flutter_exif'
+group 'com.peersafe.edit_exif'
 version '1.0'
 
 buildscript {

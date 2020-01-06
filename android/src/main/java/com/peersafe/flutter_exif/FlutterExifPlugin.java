@@ -1,4 +1,4 @@
-package com.peersafe.flutter_exif;
+package com.peersafe.edit_exif;
 
 import java.io.IOException;
 import java.util.*; 
@@ -19,7 +19,7 @@ public class FlutterExifPlugin implements MethodCallHandler {
   private MethodCall call;
 
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_exif");
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "edit_exif");
     channel.setMethodCallHandler(new FlutterExifPlugin());
   }
 
