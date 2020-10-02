@@ -18,8 +18,6 @@ class FlutterExif {
     var platform = await FlutterExif.platformVersion;
     String value;
     if (platform.contains('iOS')) {
-      // TODO: Fix iOS native code to return String not a Map
-      // because Android exif api only supports retrieving specific key
       value = await _channel.invokeMethod<String>(
           'getExif', <String, dynamic>{'path': this.path, 'key': key});
     } else {
