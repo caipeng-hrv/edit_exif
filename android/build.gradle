@@ -1,19 +1,6 @@
 group 'com.peersafe.edit_exif'
 version '1.1'
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
-
 buildscript {
     repositories {
         google()
@@ -32,13 +19,7 @@ rootProject.allprojects {
     }
 }
 
-
-
 apply plugin: 'com.android.library'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-flutter {
-    source '..'
-}
 
 android {
     compileSdkVersion 28
