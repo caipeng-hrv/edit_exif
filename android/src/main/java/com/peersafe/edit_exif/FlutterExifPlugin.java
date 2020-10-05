@@ -1,7 +1,5 @@
 package com.peersafe.edit_exif;
 
-import android.util.Log;
-
 import androidx.exifinterface.media.ExifInterface;
 
 import java.lang.reflect.Field;
