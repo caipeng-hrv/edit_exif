@@ -1,11 +1,10 @@
 package com.peersafe.edit_exif;
 
-import java.io.IOException;
-import java.util.*; 
+import androidx.exifinterface.media.ExifInterface;
+
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import android.media.ExifInterface;
-import android.location.Location;
+import java.util.Map;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -45,7 +44,7 @@ public class FlutterExifPlugin implements MethodCallHandler {
     try {
       ExifInterface exif = new ExifInterface(filepath); // 根据图片的路径获取图片的Exif
       for(String key:map.keySet()){
-        Field staticfield=ExifInterface.class.getDeclaredField(key); 
+        Field staticfield = ExifInterface.class.getDeclaredField(key);
         exif.setAttribute(staticfield.get(null).toString(), map.get(key)); 
       } 
       // 把纬度写进MODEL
@@ -63,8 +62,9 @@ public class FlutterExifPlugin implements MethodCallHandler {
     String key = call.argument("key");
     try {
       ExifInterface exif = new ExifInterface(filepath);
-      Field staticfield=ExifInterface.class.getDeclaredField(key); 
+      Field staticfield = ExifInterface.class.getDeclaredField(key);
       String value = exif.getAttribute(staticfield.get(null).toString());
+      result.success(value);
     } catch (Exception e) {
       result.error("error", "IOexception", null);
       e.printStackTrace();

@@ -48,18 +48,21 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: RaisedButton(onPressed: ()async{
-            await getExif();
-          },
-          child: Text('获取图片exif'),),
+          child: RaisedButton(
+            onPressed: () async {
+              await getExif();
+            },
+            child: Text('获取图片exif'),
+          ),
         ),
       ),
     );
   }
-  getExif()async{
+
+  getExif() async {
     String path = 'your image path';
     var exif = FlutterExif(path);
-    Map exifData = await exif.getExif('');
+    String exifData = await exif.getExif('');
     print(exifData);
   }
 }

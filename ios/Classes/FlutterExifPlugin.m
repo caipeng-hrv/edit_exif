@@ -25,13 +25,13 @@
   }
 }
 
-- (NSDictionary *)getExif:(NSDictionary *)arguments {
+- (NSString)getExif:(NSDictionary *)arguments {
   NSString *url = arguments[@"path"];
   NSString *key = arguments[@"key"];
   NSURL *fileUrl = [NSURL fileURLWithPath:url];
   CGImageSourceRef imageSource = CGImageSourceCreateWithURL((CFURLRef)fileUrl, NULL);
   CFDictionaryRef imageInfo = CGImageSourceCopyPropertiesAtIndex(imageSource, 0,NULL);
-  return (__bridge NSDictionary *)imageInfo;
+  return (__bridge NSString)imageInfo[@"key"];
 }
 - (void)setGps:(NSDictionary *)arguments {
   NSString *url = arguments[@"path"];
